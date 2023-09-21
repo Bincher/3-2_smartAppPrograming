@@ -49,6 +49,7 @@
         app:layout_constraintTop_toBottomOf="@id/txtMessage"
         app:layout_constraintBottom_toTopOf="@id/btnGenerate"
         />
+
     <TextView
         android:id="@+id/num3"
         android:layout_width="0dp"

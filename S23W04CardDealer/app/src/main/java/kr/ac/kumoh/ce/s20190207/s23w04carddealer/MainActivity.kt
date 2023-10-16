@@ -26,9 +26,12 @@ class MainActivity : AppCompatActivity() {
                 getCardName(it[i]), "drawable", packageName
                 )
             }
-            for (i in res.indices) {
-                main.card1.setImageResource(res[i])
-            }
+
+            main.card1.setImageResource(res[0])
+            //main.card2.setImageResource(res[1])
+            //main.card3.setImageResource(res[2])
+            //main.card4.setImageResource(res[3])
+            //main.card5.setImageResource(res[4])
         }
         )
 

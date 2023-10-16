@@ -3,10 +3,13 @@ package kr.ac.kumoh.ce.s20190207.s23w04carddealer
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import kr.ac.kumoh.ce.s20190207.s23w04carddealer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var main: ActivityMainBinding;
+    private lateinit var main: ActivityMainBinding
+    private lateinit var model: CardDealerViewModel
     @SuppressLint("DiscouragedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,16 +18,27 @@ class MainActivity : AppCompatActivity() {
         main = ActivityMainBinding.inflate(layoutInflater)
         setContentView(main.root)
 
-        //main.card1.setImageResource(R.drawable.c_2_of_hearts)
+        model = ViewModelProvider(this)[CardDealerViewModel::class.java]
+        model.cards.observe(this, Observer {
+            val res = IntArray(5)
+            for (i in res.indices) {
+                res[i] = resources.getIdentifier(
+                getCardName(it[i]), "drawable", packageName
+                )
+            }
+            for (i in res.indices) {
+                main.card1.setImageResource(res[i])
+            }
+        }
+        )
 
-        val res = resources.getIdentifier(
-            // 하드 코딩 제거할 것
-            getCardName(37), "drawable", packageName
-            )
-        main.card1.setImageResource(res)
+        main.btnShuffle.setOnClickListener {
+            model.shuffle()
+        }
     }
+
     private fun getCardName(c: Int) : String{
-        val shape = when(c / 13){
+        var shape = when(c / 13){
             0 -> "spades"
             1 -> "diamonds"
             2 -> "hearts"
@@ -34,11 +48,23 @@ class MainActivity : AppCompatActivity() {
         val number = when (c % 13){
             0 -> "ace"
             in 1..9 -> (c % 13 + 1).toString()
-            10 -> "jack"
-            11 -> "queen"
-            12 -> "king"
+            10 -> {
+                shape = shape.plus(2)
+                "jack"
+            }
+            11 -> {
+                shape = shape.plus(2)
+                "queen"}
+            12 -> {
+                shape = shape.plus(2)
+                "king"}
             else -> "error"
         }
-        return "c_${number}_of_${shape}"
+        if(shape == "error" || number == "error"){
+           return "c_red_joker"
+        }else{
+            return "c_${number}_of_${shape}"
+        }
+
     }
 }

@@ -111,6 +111,15 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             Text(text = "문자")
         }
         //이메일
+        Button(
+            modifier = modifier.fillMaxWidth(),
+            onClick = {
+                val intent = Intent(context, SecondActivity::class.java)
+                startActivity(context, intent, null)
+            }
+        ){
+            Text(text = "Acitivity")
+        }
     }
 
 }

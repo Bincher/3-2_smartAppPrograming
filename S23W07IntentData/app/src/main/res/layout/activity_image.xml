@@ -16,21 +16,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
     <Button
-        android:id="@+id/like"
+        android:id="@+id/btnLike"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="좋아요"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/dislike"
+        app:layout_constraintEnd_toStartOf="@+id/btnDislike"
         />
     <Button
-        android:id="@+id/dislike"
+        android:id="@+id/btnDislike"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="싫어요"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/like"
+        app:layout_constraintStart_toEndOf="@+id/btnLike"
         app:layout_constraintEnd_toEndOf="parent"
         />
 

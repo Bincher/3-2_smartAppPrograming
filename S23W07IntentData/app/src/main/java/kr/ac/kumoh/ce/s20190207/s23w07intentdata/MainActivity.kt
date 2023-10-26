@@ -33,7 +33,13 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             else -> "에러"
         }
 
-        Log.i("Result :",str)
+        when (it.data?.getStringExtra(ImageActivity.IMAGE_NAME)){
+            IMAGE_MOUNTAIN -> main.btnMountain.text = "산 (${str})"
+            IMAGE_SEA -> main.btnSea.text = "바다 (${str})"
+        }
+
+        //Log.i("Result :",str)
+
         /* 이것보단 위의 방식을 추천 - 소스코드의 이해를 위해 - 문제가 생기면 해당 조건에 맞는 리턴을 하도록
         if(it.resultCode == Activity.RESULT_OK){
 

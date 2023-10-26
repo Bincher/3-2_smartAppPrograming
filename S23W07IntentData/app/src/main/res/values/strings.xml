@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">S23W07IntentData</string>
+    <string name="title_activity_another">AnotherActivity</string>
 </resources>

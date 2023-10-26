@@ -13,6 +13,11 @@
         android:theme="@style/Theme.S23W07IntentData"
         tools:targetApi="31">
         <activity
+            android:name=".AnotherActivity"
+            android:exported="false"
+            android:label="@string/title_activity_another"
+            android:theme="@style/Theme.S23W07IntentData" />
+        <activity
             android:name=".ImageActivity"
             android:exported="false" />
         <activity

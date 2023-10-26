@@ -70,7 +70,9 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             else -> return
         }
 
-        val intent = Intent(this, ImageActivity::class.java)
+        val intent = Intent(this,
+            //ImageActivity::class.java
+            AnotherActivity::class.java)
         intent.putExtra(KEY_NAME, value)
         //startActivity(intent)
         startForResult.launch(intent)

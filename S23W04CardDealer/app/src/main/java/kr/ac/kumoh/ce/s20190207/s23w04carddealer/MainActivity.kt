@@ -14,8 +14,18 @@ import kotlin.math.round
 class MainActivity : AppCompatActivity() {
     private lateinit var main: ActivityMainBinding
     private lateinit var model: CardDealerViewModel
-    var count = 0
-    var gameCount = Array(9,{0})
+    private var count = 0
+    private val countMap = mutableMapOf<String, Int>(
+        "스트레이트 플러쉬" to 0,
+        "포카드" to 0,
+        "풀하우스" to 0,
+        "플러쉬" to 0,
+        "스트레이트" to 0,
+        "트리플" to 0,
+        "투페어" to 0,
+        "원페어" to 0,
+        "탑" to 0,
+        )
     @SuppressLint("DiscouragedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,20 +82,11 @@ class MainActivity : AppCompatActivity() {
         main.textView1.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("통계")
-                .setMessage("Shuffle 횟수 : ${count}\n" +
-                        "스트레이트 플러쉬 횟수 : ${gameCount[0]}(${round(gameCount[0].toDouble()/count*100)}%)\n"+
-                        "포카드 횟수 : ${gameCount[1]}(${round(gameCount[1].toDouble()/count*100)}%)\n"+
-                        "풀하우스 횟수 : ${gameCount[2]}(${round(gameCount[2].toDouble()/count*100)}%)\n"+
-                        "플러쉬 횟수 : ${gameCount[3]}(${round(gameCount[3].toDouble()/count*100)}%)\n"+
-                        "스트레이트 횟수 : ${gameCount[4]}(${round(gameCount[4].toDouble()/count*100)}%)\n"+
-                        "트리플 횟수 : ${gameCount[5]}(${round(gameCount[5].toDouble()/count*100)}%)\n"+
-                        "투페어 횟수 : ${gameCount[6]}(${round(gameCount[6].toDouble()/count*100)}%)\n"+
-                        "원페어 횟수 : ${gameCount[7]}(${round(gameCount[7].toDouble()/count*100)}%)\n"+
-                        "탑 횟수 : ${gameCount[8]}(${round(gameCount[8].toDouble()/count*100)}%)\n")
-                .setPositiveButton("확인",
-                    DialogInterface.OnClickListener { dialog, id ->
-                    })
-            // 다이얼로그를 띄워주기
+            val message = buildStatisticsMessage()
+            builder.setMessage(message)
+                .setPositiveButton("확인") { dialog, id ->
+                    // 확인 버튼 클릭 시 수행할 동작
+                }
             builder.show()
         }
     }
@@ -95,18 +96,7 @@ class MainActivity : AppCompatActivity() {
         val cards = model.cards.value ?: intArrayOf() // 현재 카드 배열
         var ranking = model.checkPokerHand(cards)
         main.textView1.text = ranking // 포커 족보 판별
-        when(ranking){
-            "스트레이트 플러쉬" -> gameCount[0] += 1
-            "포카드" -> gameCount[1] += 1
-            "풀하우스" -> gameCount[2] += 1
-            "플러쉬" -> gameCount[3] += 1
-            "스트레이트" -> gameCount[4] += 1
-            "트리플" -> gameCount[5] += 1
-            "투페어" -> gameCount[6] += 1
-            "원페어" -> gameCount[7] += 1
-            "탑" -> gameCount[8] += 1
-            else -> count--
-        }
+        countMap[ranking] = countMap[ranking]!! + 1
     }
     private fun getCardName(c: Int) : String{
         var shape = when(c / 13){
@@ -137,5 +127,29 @@ class MainActivity : AppCompatActivity() {
             return "c_${number}_of_${shape}"
         }
 
+    }
+    private fun buildStatisticsMessage(): String {
+        val message = StringBuilder()
+        message.append("Shuffle 횟수 : $count\n")
+        val statistics = listOf(
+            "스트레이트 플러쉬",
+            "포카드",
+            "풀하우스",
+            "플러쉬",
+            "스트레이트",
+            "트리플",
+            "투페어",
+            "원페어",
+            "탑"
+        )
+
+        for (statistic in statistics) {
+            val count_temp = countMap[statistic] ?: 0
+            val percentage = (count_temp.toDouble() / count.toDouble()) * 100
+            val roundedPercentage = String.format("%.5f", percentage)
+            message.append("$statistic : $count_temp ($roundedPercentage%)\n")
+        }
+
+        return message.toString()
     }
 }

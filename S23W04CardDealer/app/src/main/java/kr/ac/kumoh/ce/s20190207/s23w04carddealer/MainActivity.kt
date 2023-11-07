@@ -1,3 +1,4 @@
+// MainActivity.kt
 package kr.ac.kumoh.ce.s20190207.s23w04carddealer
 
 import android.annotation.SuppressLint
@@ -14,22 +15,10 @@ import kotlin.math.round
 class MainActivity : AppCompatActivity() {
     private lateinit var main: ActivityMainBinding
     private lateinit var model: CardDealerViewModel
-    private var count = 0
-    private val countMap = mutableMapOf<String, Int>(
-        "스트레이트 플러쉬" to 0,
-        "포카드" to 0,
-        "풀하우스" to 0,
-        "플러쉬" to 0,
-        "스트레이트" to 0,
-        "트리플" to 0,
-        "투페어" to 0,
-        "원페어" to 0,
-        "탑" to 0,
-        )
+
     @SuppressLint("DiscouragedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
 
         main = ActivityMainBinding.inflate(layoutInflater)
         setContentView(main.root)
@@ -48,37 +37,44 @@ class MainActivity : AppCompatActivity() {
             for (i in cardViews.indices) {
                 cardViews[i].setImageResource(res[i])
             }
+        })
 
-            }
-        )
+        // 화면 회전 시에도 족보 유지
+        model.ranking.observe(this, Observer {
+            main.textView1.text = it
+        })
 
         main.btnShuffle.setOnClickListener {
-            shuffleAndHand()
+            main.textView1.text = model.shuffleAndHand()
         }
+
         main.btn1000.setOnClickListener {
             Toast.makeText(this, "Shuffle 시작", Toast.LENGTH_SHORT).show()
-            for(i in 1..10000){
-                shuffleAndHand()
+            for (i in 1..10000) {
+                main.textView1.text = model.shuffleAndHand()
             }
         }
-        main.btnFlush.setOnClickListener{
+
+        main.btnFlush.setOnClickListener {
             Toast.makeText(this, "Shuffle 시작", Toast.LENGTH_SHORT).show()
-            shuffleAndHand()
-            while(main.textView1.text != "플러쉬"
+            model.shuffleAndHand()
+            while (main.textView1.text != "플러쉬"
                 && main.textView1.text != "풀하우스"
                 && main.textView1.text != "포카드"
-                && main.textView1.text != "스트레이트 플러쉬"){
-                shuffleAndHand()
+                && main.textView1.text != "스트레이트 플러쉬") {
+                main.textView1.text = model.shuffleAndHand()
             }
         }
-        main.btnFourcard.setOnClickListener{
+
+        main.btnFourcard.setOnClickListener {
             Toast.makeText(this, "Shuffle 시작", Toast.LENGTH_SHORT).show()
-            shuffleAndHand()
-            while(main.textView1.text != "포카드"
-                && main.textView1.text != "스트레이트 플러쉬"){
-                shuffleAndHand()
+            main.textView1.text = model.shuffleAndHand()
+            while (main.textView1.text != "포카드"
+                && main.textView1.text != "스트레이트 플러쉬") {
+                main.textView1.text = model.shuffleAndHand()
             }
         }
+
         main.textView1.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("통계")
@@ -90,23 +86,16 @@ class MainActivity : AppCompatActivity() {
             builder.show()
         }
     }
-    private fun shuffleAndHand(){
-        model.shuffle()
-        count++
-        val cards = model.cards.value ?: intArrayOf() // 현재 카드 배열
-        var ranking = model.checkPokerHand(cards)
-        main.textView1.text = ranking // 포커 족보 판별
-        countMap[ranking] = countMap[ranking]!! + 1
-    }
-    private fun getCardName(c: Int) : String{
-        var shape = when(c / 13){
+
+    private fun getCardName(c: Int): String {
+        var shape = when (c / 13) {
             0 -> "spades"
             1 -> "diamonds"
             2 -> "hearts"
             3 -> "clubs"
             else -> "error"
         }
-        val number = when (c % 13){
+        val number = when (c % 13) {
             0 -> "ace"
             in 1..9 -> (c % 13 + 1).toString()
             10 -> {
@@ -115,22 +104,24 @@ class MainActivity : AppCompatActivity() {
             }
             11 -> {
                 shape = shape.plus(2)
-                "queen"}
+                "queen"
+            }
             12 -> {
                 shape = shape.plus(2)
-                "king"}
+                "king"
+            }
             else -> "error"
         }
-        if(shape == "error" || number == "error"){
-           return "c_red_joker"
-        }else{
+        if (shape == "error" || number == "error") {
+            return "c_red_joker"
+        } else {
             return "c_${number}_of_${shape}"
         }
-
     }
+
     private fun buildStatisticsMessage(): String {
         val message = StringBuilder()
-        message.append("Shuffle 횟수 : $count\n")
+        message.append("Shuffle 횟수 : ${model.count}\n")
         val statistics = listOf(
             "스트레이트 플러쉬",
             "포카드",
@@ -144,8 +135,8 @@ class MainActivity : AppCompatActivity() {
         )
 
         for (statistic in statistics) {
-            val count_temp = countMap[statistic] ?: 0
-            val percentage = (count_temp.toDouble() / count.toDouble()) * 100
+            val count_temp = model.countMap[statistic] ?: 0
+            val percentage = (count_temp.toDouble() / model.count.toDouble()) * 100
             val roundedPercentage = String.format("%.5f", percentage)
             message.append("$statistic : $count_temp ($roundedPercentage%)\n")
         }

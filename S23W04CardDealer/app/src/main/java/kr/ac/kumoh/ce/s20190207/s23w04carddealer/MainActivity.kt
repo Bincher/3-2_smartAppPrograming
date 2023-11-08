@@ -15,6 +15,17 @@ import kotlin.math.round
 class MainActivity : AppCompatActivity() {
     private lateinit var main: ActivityMainBinding
     private lateinit var model: CardDealerViewModel
+    companion object {
+        const val STRAIGHTFLUSH = "스트레이트 플러쉬"
+        const val FOURCARD = "포카드"
+        const val FULLHOUSE = "풀하우스"
+        const val FLUSH = "플러쉬"
+        const val STRAIGHT = "스트레이트"
+        const val TRIPLE = "트리플"
+        const val TWOPAIR = "투페어"
+        const val ONEPAIR = "원페어"
+        const val TOP = "탑"
+    }
 
     @SuppressLint("DiscouragedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,10 +69,10 @@ class MainActivity : AppCompatActivity() {
         main.btnFlush.setOnClickListener {
             Toast.makeText(this, "Shuffle 시작", Toast.LENGTH_SHORT).show()
             model.shuffleAndHand()
-            while (main.textView1.text != "플러쉬"
-                && main.textView1.text != "풀하우스"
-                && main.textView1.text != "포카드"
-                && main.textView1.text != "스트레이트 플러쉬") {
+            while (main.textView1.text != FLUSH
+                && main.textView1.text != FULLHOUSE
+                && main.textView1.text != FOURCARD
+                && main.textView1.text != STRAIGHTFLUSH) {
                 main.textView1.text = model.shuffleAndHand()
             }
         }
@@ -69,8 +80,8 @@ class MainActivity : AppCompatActivity() {
         main.btnFourcard.setOnClickListener {
             Toast.makeText(this, "Shuffle 시작", Toast.LENGTH_SHORT).show()
             main.textView1.text = model.shuffleAndHand()
-            while (main.textView1.text != "포카드"
-                && main.textView1.text != "스트레이트 플러쉬") {
+            while (main.textView1.text != FOURCARD
+                && main.textView1.text != STRAIGHTFLUSH) {
                 main.textView1.text = model.shuffleAndHand()
             }
         }
@@ -123,15 +134,15 @@ class MainActivity : AppCompatActivity() {
         val message = StringBuilder()
         message.append("Shuffle 횟수 : ${model.count}\n")
         val statistics = listOf(
-            "스트레이트 플러쉬",
-            "포카드",
-            "풀하우스",
-            "플러쉬",
-            "스트레이트",
-            "트리플",
-            "투페어",
-            "원페어",
-            "탑"
+            STRAIGHTFLUSH,
+            FOURCARD,
+            FULLHOUSE,
+            FLUSH,
+            STRAIGHT,
+            TRIPLE,
+            TWOPAIR,
+            ONEPAIR,
+            TOP
         )
 
         for (statistic in statistics) {

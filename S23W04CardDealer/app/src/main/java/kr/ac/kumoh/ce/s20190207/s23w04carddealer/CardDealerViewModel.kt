@@ -18,15 +18,15 @@ class CardDealerViewModel : ViewModel() {
 
     var count = 0
     val countMap = mutableMapOf<String, Int>(
-        "스트레이트 플러쉬" to 0,
-        "포카드" to 0,
-        "풀하우스" to 0,
-        "플러쉬" to 0,
-        "스트레이트" to 0,
-        "트리플" to 0,
-        "투페어" to 0,
-        "원페어" to 0,
-        "탑" to 0,
+        MainActivity.STRAIGHTFLUSH to 0,
+        MainActivity.FOURCARD to 0,
+        MainActivity.FULLHOUSE to 0,
+        MainActivity.FLUSH to 0,
+        MainActivity.STRAIGHT to 0,
+        MainActivity.TRIPLE to 0,
+        MainActivity.TWOPAIR to 0,
+        MainActivity.ONEPAIR to 0,
+        MainActivity.TOP to 0,
     )
 
     fun shuffleAndHand(): String {
@@ -78,15 +78,15 @@ class CardDealerViewModel : ViewModel() {
 
         // 족보 판별 및 결과 반환
         return when {
-            isFlush && isStraight -> "스트레이트 플러쉬"
-            isFourOfAKind -> "포카드"
-            isThreeOfAKind && isOnePair -> "풀하우스"
-            isFlush -> "플러쉬"
-            isStraight -> "스트레이트"
-            isThreeOfAKind -> "트리플"
-            isTwoPair -> "투페어"
-            isOnePair -> "원페어"
-            else -> "탑"
+            isFlush && isStraight -> MainActivity.STRAIGHTFLUSH
+            isFourOfAKind -> MainActivity.FOURCARD
+            isThreeOfAKind && isOnePair -> MainActivity.FULLHOUSE
+            isFlush -> MainActivity.FLUSH
+            isStraight -> MainActivity.STRAIGHT
+            isThreeOfAKind -> MainActivity.TRIPLE
+            isTwoPair -> MainActivity.TWOPAIR
+            isOnePair -> MainActivity.ONEPAIR
+            else -> MainActivity.TOP
         }
     }
 }

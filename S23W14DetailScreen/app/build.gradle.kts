@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "kr.ac.kumoh.ce.s20190207.s23w13songlist"
+    namespace = "kr.ac.kumoh.ce.s20190207.s23w14detailscreen"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "kr.ac.kumoh.ce.s20190207.s23w13songlist"
+        applicationId = "kr.ac.kumoh.ce.s20190207.s23w14detailscreen"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
@@ -51,10 +51,6 @@ android {
 
 dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
-    implementation("io.coil-kt:coil-compose:2.5.0")
-    implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.1")

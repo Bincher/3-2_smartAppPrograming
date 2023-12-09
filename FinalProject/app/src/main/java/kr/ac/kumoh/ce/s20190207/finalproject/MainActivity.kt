@@ -63,67 +63,8 @@ fun MainScreen(viewModel: CookieViewModel){
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            CookieList(cookieList)
+            CookieApp(cookieList)
         }
     }
 }
 
-@Composable
-fun CookieList(list: List<Cookie>){
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 8.dp)
-    ){
-        items(list){ cookie->
-            CookieItem(cookie)
-        }
-    }
-}
-
-@Composable
-fun CookieItem(cookie: Cookie){
-    var expanded by remember { mutableStateOf(false) }
-    Card(
-        modifier = Modifier.clickable { expanded = !expanded },
-        elevation = CardDefaults.cardElevation(8.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                //.background(Color(255, 210, 210))
-                .padding(8.dp)
-        ) {
-            AsyncImage(
-                model = cookie.img,
-                contentDescription = "쿠키 이미지",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(percent = 10)),
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center
-            ) {
-                TextName(cookie.name)
-                TextType(cookie.Type_name)
-            }
-        }
-        AnimatedVisibility(visible = expanded) {
-            cookie.skill?.let{Text(it)}
-        }
-    }
-
-}
-
-@Composable
-fun TextName(name: String){
-    Text(name, fontSize = 30.sp)
-}
-
-@Composable
-fun TextType(type: String){
-    Text(type, fontSize = 20.sp)
-}

@@ -6,7 +6,7 @@ data class Cookie(
     val img: String,
     val skill: String?,
     val element: String,
-    val Location_name: String,
-    val Type_name: String,
-    val Rarity_name: String
+    val Location_img: String,
+    val Type_img: String,
+    val Rarity_img: String
 )

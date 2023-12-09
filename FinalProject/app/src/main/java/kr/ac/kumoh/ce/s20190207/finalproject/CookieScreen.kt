@@ -3,6 +3,7 @@ package kr.ac.kumoh.ce.s20190207.finalproject
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,6 +48,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 
 enum class CookieScreen {
     List,
@@ -123,8 +127,9 @@ fun CookieItem(index: Int,
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center
             ) {
+                ImageRarity(cookie.Rarity_img)
                 TextName(cookie.name)
-                TextType(cookie.Type_name)
+                ImageInformation(cookie.Type_img, cookie.Location_img)
             }
         }
 //        AnimatedVisibility(visible = expanded) {
@@ -135,13 +140,42 @@ fun CookieItem(index: Int,
 }
 
 @Composable
+fun ImageRarity(rarity: String, modifier: Modifier = Modifier){
+    Image(
+        painter = rememberAsyncImagePainter(model = rarity),
+        contentDescription = "쿠키 등급",
+        modifier = modifier
+            .size(width = 100.dp, height = 30.dp)
+            .padding(2.dp)
+    )
+}
+@Composable
 fun TextName(name: String){
     Text(name, fontSize = 30.sp)
 }
 
 @Composable
-fun TextType(type: String){
-    Text(type, fontSize = 20.sp)
+fun ImageInformation(type: String, location: String){
+    Row(
+    ){
+        AsyncImage(
+            model = type,
+            contentDescription = "쿠키 타입",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier
+                .size(30.dp)
+                .padding(2.dp),
+        )
+        AsyncImage(
+            model = location,
+            contentDescription = "쿠키 위치",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier
+                .size(30.dp)
+                .padding(2.dp),
+        )
+    }
+
 }
 
 @Composable

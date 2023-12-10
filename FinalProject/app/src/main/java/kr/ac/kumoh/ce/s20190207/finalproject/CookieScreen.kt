@@ -25,6 +25,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,6 +38,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -129,12 +134,9 @@ fun CookieItem(index: Int,
             ) {
                 ImageRarity(cookie.Rarity_img)
                 TextName(cookie.name)
-                ImageInformation(cookie.Type_img, cookie.Location_img)
+                ImageInformation(cookie.Type_img, cookie.Location_img, cookie.element)
             }
         }
-//        AnimatedVisibility(visible = expanded) {
-//            cookie.skill?.let{ Text(it) }
-//        }
     }
 
 }
@@ -151,12 +153,32 @@ fun ImageRarity(rarity: String, modifier: Modifier = Modifier){
 }
 @Composable
 fun TextName(name: String){
-    Text(name, fontSize = 30.sp)
+    val customFont = FontFamily(Font(R.font.cookierun_regular))
+    val textStyle = LocalTextStyle.current.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        fontFamily = customFont
+    )
+
+    Text(name,
+        style = textStyle,
+        fontSize = 30.sp
+    )
 }
 
 @Composable
-fun ImageInformation(type: String, location: String){
+fun ImageInformation(type: String, location: String, element: String){
+    val context = LocalContext.current
+    val customFont = FontFamily(Font(R.font.cookierun_regular))
+    val textStyle = LocalTextStyle.current.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        fontFamily = customFont
+    )
+
     Row(
+        modifier = Modifier
+            .padding(2.dp)
     ){
         AsyncImage(
             model = type,
@@ -174,6 +196,11 @@ fun ImageInformation(type: String, location: String){
                 .size(30.dp)
                 .padding(2.dp),
         )
+        Text(element,
+            modifier = Modifier.padding(2.dp).size(30.dp),
+            softWrap = false,
+            style = textStyle
+        )
     }
 
 }
@@ -181,6 +208,12 @@ fun ImageInformation(type: String, location: String){
 @Composable
 fun CookieDetail(cookie: Cookie){
     val context = LocalContext.current
+    val customFont = FontFamily(Font(R.font.cookierun_regular))
+    val textStyle = LocalTextStyle.current.copy(
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        fontFamily = customFont
+    )
 
     Column (
         modifier = Modifier
@@ -190,6 +223,7 @@ fun CookieDetail(cookie: Cookie){
     ){
         Text(
             cookie.name,
+            style = textStyle,
             fontSize = 40.sp,
             textAlign = TextAlign.Center,
             lineHeight = 45.sp
@@ -203,19 +237,12 @@ fun CookieDetail(cookie: Cookie){
             modifier = Modifier
                 .size(400.dp),
             )
-        Spacer(modifier = Modifier.height(16.dp))
-        cookie.element.let{
-            Text(
-                it,
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center,
-                lineHeight = 35.sp
-            )
-        }
+
         Spacer(modifier = Modifier.height(16.dp))
         cookie.skill?.let {
             Text(
                 it,
+                style = textStyle,
                 fontSize = 30.sp,
                 textAlign = TextAlign.Center,
                 lineHeight = 35.sp

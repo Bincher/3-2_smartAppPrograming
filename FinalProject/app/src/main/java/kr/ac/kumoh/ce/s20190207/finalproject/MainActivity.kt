@@ -1,6 +1,8 @@
 package kr.ac.kumoh.ce.s20190207.finalproject
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -41,6 +43,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.res.ResourcesCompat
 import coil.compose.AsyncImage
 import kr.ac.kumoh.ce.s20190207.finalproject.ui.theme.FinalProjectTheme
 

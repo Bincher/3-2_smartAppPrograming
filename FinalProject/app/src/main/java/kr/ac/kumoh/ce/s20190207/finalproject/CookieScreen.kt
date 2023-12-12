@@ -243,8 +243,8 @@ fun CookieDetail(cookie: Cookie){
             Text(
                 it,
                 style = textStyle,
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Left,
                 lineHeight = 35.sp
             )
         }
@@ -262,7 +262,7 @@ fun CookieDetail(cookie: Cookie){
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier.width(16.dp))
-                Text("나무위키 검색", fontSize = 30.sp)
+                Text("나무위키 검색", fontSize = 30.sp, style = textStyle)
             }
         }
     }

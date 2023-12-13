@@ -1,4 +1,4 @@
-package kr.ac.kumoh.ce.prof01.s23w12carddealer
+package kr.ac.kumoh.ce.s20190207.s23w12carddealer
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import kr.ac.kumoh.ce.s20190207.s23w12carddealer.ui.theme.S23W12CardDealerTheme
@@ -204,9 +205,10 @@ fun ColumnScope.CardImages(res: IntArray) {
 
 @Composable
 fun ShuffleButton(viewModel: CardViewModel) {
-    Button(modifier = Modifier.fillMaxWidth()
+    Button(modifier = Modifier
+        .fillMaxWidth()
         .background(Color(0, 100, 0)),
         onClick = { viewModel.shuffle() }) {
-        Text("Good Luck")
+        Text(stringResource(R.string.good_luck))
     }
 }

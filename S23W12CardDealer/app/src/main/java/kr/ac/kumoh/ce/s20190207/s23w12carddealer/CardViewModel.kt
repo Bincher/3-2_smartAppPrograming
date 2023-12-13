@@ -1,4 +1,4 @@
-package kr.ac.kumoh.ce.prof01.s23w12carddealer
+package kr.ac.kumoh.ce.s20190207.s23w12carddealer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
